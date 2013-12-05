@@ -31,12 +31,12 @@ class bpsData(object):
         data_file = data.split('\n')
         with open("data.csv", "wb") as f:
             for d in data_file[6:39]: # the 1st 6 data are gibberish
-                f.write(d + '\n')
+                f.write(d.replace(';', ',') + '\n')
 
     def analyze_data(self):
         """analyze data with pandas
         """
-        df = pd.read_csv("data.csv", sep=";", index_col=0, header=None)
+        df = pd.read_csv("data.csv", sep=",", index_col=0, header=None)
         df.columns = ['2009|L', '2010|L', '2011|L', '2012|L', '2009|P', '2010|P', '2011|P', '2012|P', '2009|T', '2010|T', '2011|T', '2012|T']
         # data_lk = df[[1,2,3,4]]
         # data_prmp = df[[5,6,7,8]]
@@ -50,7 +50,7 @@ class bpsData(object):
         df2 = pd.DataFrame(df, columns=['2012|L', '2012|P'])
         #df[[1]].plot(kind='bar')
         df2.plot(kind='bar', 
-                 title="Perbandingan Jumlah Penduduk Laki-laki vs Perempuan (Persentase) Tahun 2012", 
+                 title="Persentase Penduduk menurut Provinsi dan Jenis Kelamin Tahun 2012", 
                  legend=False)
         plt.legend(fancybox=True, shadow=True)
         plt.show()
