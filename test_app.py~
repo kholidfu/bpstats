@@ -1,0 +1,9 @@
+import unittest
+from app import bpsData
+
+b = bpsData()
+
+class bpsDataTest(unittest.TestCase):
+
+    def get_url(self):
+        return assertTrue(b.url)
