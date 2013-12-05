@@ -1,4 +1,3 @@
-from unidecode import unidecode
 import urllib2
 import re
 from bs4 import BeautifulSoup
@@ -23,12 +22,11 @@ class bpsData(object):
         rows = soup.find_all('tr', style=re.compile("userset;height:15.0pt"))
         data = ''
         for row in rows:
-            #r = row.find_all('td')
-            data += ';'.join([r.text for r in row.find_all('td') if r.text != None])
+            data += ';'.join([r.text for r in row.find_all('td')])
             data += '\n'
         data_file = data.split('\n')
         with open("data.csv", "wb") as f:
-            for d in data_file[6:40]:
+            for d in data_file[6:40]: # the 1st 6 data are gibberish
                 f.write(d + '\n')
 
     def analyze_data(self):
@@ -38,7 +36,7 @@ class bpsData(object):
         data_lk = df[[1,2,3,4]]
         data_prmp = df[[5,6,7,8]]
         data_total = df[[9,10,11,12]]
-        print data_total
+        print df
 
 
 if __name__ == "__main__":
