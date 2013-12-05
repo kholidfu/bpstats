@@ -36,11 +36,9 @@ class bpsData(object):
     def analyze_data(self):
         """analyze data with pandas
         """
-        df = pd.read_csv("data.csv", sep=",", index_col=0, header=None)
-        df.columns = ['2009|L', '2010|L', '2011|L', '2012|L', '2009|P', '2010|P', '2011|P', '2012|P', '2009|T', '2010|T', '2011|T', '2012|T']
-        # data_lk = df[[1,2,3,4]]
-        # data_prmp = df[[5,6,7,8]]
-        # data_total = df[[9,10,11,12]]
+        df = pd.read_csv("data.csv", header=None)
+        df.columns = ['Provinsi', '2009|L', '2010|L', '2011|L', '2012|L', '2009|P', '2010|P', '2011|P', '2012|P', '2009|T', '2010|T', '2011|T', '2012|T']
+        df = df.set_index(['Provinsi'])
         return df
 
     def show_graph(self):
@@ -48,12 +46,33 @@ class bpsData(object):
         """
         df = self.analyze_data()
         df2 = pd.DataFrame(df, columns=['2012|L', '2012|P'])
-        #df[[1]].plot(kind='bar')
-        df2.plot(kind='bar', 
-                 title="Persentase Penduduk menurut Provinsi dan Jenis Kelamin Tahun 2012", 
-                 legend=False)
-        plt.legend(fancybox=True, shadow=True)
+        df2 = df2.sort(['2012|L', '2012|P'], ascending=False)
+        ax = df2.plot(kind='barh', 
+                 stacked=True,
+                 title="Persentase Penduduk menurut Provinsi dan Jenis Kelamin Tahun 2012",
+                 legend=False,
+                 fontsize='10')
+        # custom legend
+        patches, labels = ax.get_legend_handles_labels()
+        ax.legend(patches, ['Laki-laki', 'Perempuan'], loc='best')
+
         plt.show()
+
+    def show_graph2(self):
+        """lets try back-to-back histogram
+        """
+        df = self.analyze_data() # raw data
+        ind = np.arange(len(df.index)) # x locations for the groups
+        width = 0.35 # width of the bars
+
+        df2 = pd.DataFrame(df, columns=['2012|L', '2012|P']) # dataframe
+        # begin plotting
+        fig, ax = plt.subplots()
+        rects1 = ax.bar(ind, df[[1]].values, width, color='r')
+        rects2 = ax.bar(ind+width, df[[5]].values, width, color='y')
+        ax.set_xticklabels(df.index.tolist())
+        plt.show()
+
 
 
 if __name__ == "__main__":
