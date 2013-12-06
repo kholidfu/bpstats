@@ -1,6 +1,7 @@
 *.py[cod]
 
 man
+.ipynb
 
 # C extensions
 *.so
