@@ -2,6 +2,7 @@
 
 man
 .ipynb
+*~
 
 # C extensions
 *.so
